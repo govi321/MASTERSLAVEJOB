@@ -1,0 +1,201 @@
+              MASTER& slave job
+					 
+.	Take the two instance -->ubuntu-->18.04--> 
+      no.of instance 2-->custom tcp-->anywere
+	
+. in master--> we must install java,maven,jenkins
+
+. in slave---> only java, maven
+
+.   using through "master" instance we have to open              
+   the ""jenkins dash board""
+
+.   And open the master git bash 
+
+     in root user#  cat /etc/shadow
+
+     here we saw the jenkins
+
+      now-->   passwd Jenkins (type)
+
+      unix passwd  : jenkins
+	  retypepasswd : jenkins
+	  
+	  
+	                 visudo
+
+then Edit :-
+BELOW THE -->root       ALL=(ALL:ALL)   ALL
+     TYPE    jenkins    ALL=(ALL)       NOPASSWD: ALL
+							
+			THEN   --->  ctrl + x 
+			       --->   yes
+				   
+		 vi /etc/ssh/sshd_config
+				                                      ENTER
+													  
+			press  "  i  "   insert
+
+             passwd Aithentication            " NO "
+            
+            insted of "no" will write a ""yes""
+
+
+               ESC + :  +  wq! 
+
+                service	 ssh restart
+
+then open the slave git bash 
+
+                  cat /etc/shadow
+
+                        we can't see the jenkins 
+
+in root user-->    adduser jenkins
+                 
+				   Enter unixpasswd: jenkins
+				   
+				   Enter 4 times
+				   
+				   --->yes
+				   
+				    visudo
+
+           BELOW 
+                   root       ALL=(ALL:ALL)          ALL
+                   jenkins    ALL=(ALL)			     NOPASSWD: ALL
+
+                       CTRL + X
+
+                          yes	
+
+
+              vi /etc/ssh/sshd_config
+
+
+              press   "   i 	"	 insert
+
+    passwd Aithentication            " NO "
+            
+    insted of "no" will write a ""yes""
+         
+ 
+                 ESC + : +  wq!           
+							
+							save it
+							
+			service ssh restart
+							 
+             ping google.com
+							  
+	----> then copy the private ip of slave instance 
+    
+	----> then go to master git bash 
+
+                         su jenkins
+                             
+		then user is jenkins					 
+							
+			cd			
+
+                   ssh slaveprivate ip---> yes
+              EX:  ssh 172.31.15.221  ---> yes
+
+                           passwd jenkins
+      
+              now master  & slave are connected
+            
+                --->       
+then you will in slave ,just like private ip slave
+                       
+                        root@ip-172-31-10-237:~# cd /home/jenkins/workspace/
+                                          
+        --->         then go to  jenkins dash board
+
+            manage  jenkins ---> manage node 
+
+then click the " NEW node " 
+
+                          node name   -->  my node
+                                       *  permanent agent	
+
+                                         OK	
+
+                          Description  --> masterslaveconfig
+
+                          Of exec      ---> 2
+
+                          Remote direct -->  /home/jenkins	
+
+                          Labels        --->  masterslavejob
+
+                          mandetary Host ---> slave private ip "172.43.32"
+
+                          Credentials    ----> jenkins  -->ADD	
+
+                         user name      ----->  jenkins
+ 
+                         passwd         ----->  jenkins
+ 
+                                      save
+
+   mynode 
+    X click it 
+                  Relaunch Agent    <----click	
+				  
+				  then go to your created node 
+				  
+				  then go to jenkins dash board
+				  
+				   create a new job / masterslavejob /freestyle/ok
+				   
+				   your in master slave job
+				   
+ General \/ Restrict when this project can be run 
+
+ LabeL Expression  --> masterslavejob
+
+ source code mang  --> * git 
+repositry  url     -->   git url 
+
+  
+  Build
+           --> invoke top-level maven target
+
+  Goals 
+           ---> install
+
+            Apply      &     save 
+
+
+ build now---> click the job
+
+
+--> go to slave job git bash
+
+                    cd /home/jenkins
+
+                    ls 
+         remote jar workspace
+       
+	    cd workspace
+    
+                   ls 
+         cd masterslavejob
+
+         cd target
+             ls 
+war file is genrated
+
+
+this proses is won't come in master
+			 
+							
+              						
+			                          				
+							
+
+
+	
+
+
