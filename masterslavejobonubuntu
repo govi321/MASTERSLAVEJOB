@@ -129,6 +129,8 @@ then click the " NEW node "
 
                           Labels        --->  masterslavejob
 
+                          Launch agent via ssh
+
                           mandetary Host ---> slave private ip "172.43.32"
 
                           Credentials    ----> jenkins  -->ADD	
